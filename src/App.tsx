@@ -1,11 +1,12 @@
-import Knots from '../src/components/Knots'
+import WindSpeedView from './components/WindSpeedView'
 
 import SearchInput from 'components/InputSearch'
 import Button from 'components/Button'
 import useWeather from 'hooks/useWeather'
 
 const App = () => {
-  const {data, location, status, handleOnChange, fetchData} = useWeather()
+  const {weatherData, location, status, handleOnChange, fetchData} =
+    useWeather()
 
   return (
     <div className="App">
@@ -15,9 +16,11 @@ const App = () => {
         <h1> loading...</h1>
       ) : status === 'success' ? (
         <>
-          <Knots knots={data?.wind?.speed} />
-          {data?.weather?.length && <div>{data?.weather[0]?.description}</div>}
-          country: {data?.sys?.country}
+          <WindSpeedView speed={weatherData.wind.speed} />
+          {weatherData?.weather?.length && (
+            <div>{weatherData?.weather[0]?.description}</div>
+          )}
+          country: {weatherData?.sys?.country}
         </>
       ) : (
         status === 'error' && <h1> Data not found </h1>

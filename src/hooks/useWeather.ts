@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import {fetchCurrentWeather} from 'services/weather'
 
 const useWeather = () => {
-    const [data, setData] = useState<any>({})
+    const [weatherData, setWeatherData] = useState<any>()
+    // const [, setSpeed] = useState<number>(0)
     const [status, setStatus] = useState<string>('idle')
     const [location, setLocation] = useState<string>('Athens')
   
@@ -16,8 +17,9 @@ const useWeather = () => {
         const {data} = await fetchCurrentWeather({
           params: {q: location, appid: 'ebc8de08ce3579cf444b51c12772a8bc'},
         })
-  
-        setData(data)
+        console.log(data)
+        setWeatherData(data)
+        // setSpeed(data.wind.speed)
         setStatus('success')
       } catch (err) {
         console.log(err)
@@ -26,7 +28,7 @@ const useWeather = () => {
     }
 
     
-    return {data,location, status, handleOnChange, fetchData}
+    return {weatherData,location, status, handleOnChange, fetchData}
 }
 
 export default useWeather
