@@ -3,9 +3,9 @@ import {fetchCurrentWeather} from 'services/weather'
 
 const useWeather = () => {
     const [weatherData, setWeatherData] = useState<any>()
-    // const [, setSpeed] = useState<number>(0)
+    const [speed, setSpeed] = useState<number>(0)
     const [status, setStatus] = useState<string>('idle')
-    const [location, setLocation] = useState<string>('Athens')
+    const [location, setLocation] = useState<string>('')
   
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setLocation(e.target.value)
@@ -19,7 +19,7 @@ const useWeather = () => {
         })
         console.log(data)
         setWeatherData(data)
-        // setSpeed(data.wind.speed)
+        setSpeed(data.wind.speed)
         setStatus('success')
       } catch (err) {
         console.log(err)
@@ -28,7 +28,7 @@ const useWeather = () => {
     }
 
     
-    return {weatherData,location, status, handleOnChange, fetchData}
+    return {weatherData,speed,location, status, handleOnChange, fetchData}
 }
 
 export default useWeather
