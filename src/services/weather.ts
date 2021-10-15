@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios   from "axios";
+
+
 
 type typeParams = {
   params: {
@@ -7,12 +9,17 @@ type typeParams = {
   };
 };
 
+
 const fetchCurrentWeather = ({ params }: typeParams) => {
-  return axios.request({
+ return axios.request({
     method: "GET",
     url: `https://api.openweathermap.org/data/2.5/weather`,
+    headers: {
+      "Content-type": "application/json"
+    },
     params
   });
+
 };
 
 export { fetchCurrentWeather };

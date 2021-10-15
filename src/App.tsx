@@ -1,54 +1,29 @@
-import React from "react";
-import "./styles.css";
+import Knots from '../src/components/Knots'
 
-import Knots from "../src/components/Knots";
-import { fetchCurrentWeather } from "../src/services/currentWeather.service.ts";
+import SearchInput from 'components/InputSearch'
+import Button from 'components/Button'
+import useWeather from 'hooks/useWeather'
 
-export default function App() {
-  const [wind, setWind] = React.useState(0);
-  const [status, setStatus] = React.useState("");
-  const [location, setLocation] = React.useState("");
-  const [weather, setWeather] = React.useState("");
-  const [country, setCountry] = React.useState("");
-
-  const handleLocation = (e) => {
-    setLocation(e.target.value);
-  };
-
-  const fetchData = async () => {
-    setStatus("loading");
-    try {
-      const res = await fetchCurrentWeather({
-        params: { q: location, appid: "ebc8de08ce3579cf444b51c12772a8bc" }
-      });
-      console.log({ res });
-      setWind(Math.round(res.data.wind.speed * 0.87));
-      setCountry(res.data.sys.country);
-      setWeather(res.data.weather[0].description);
-      setStatus("success");
-    } catch (err) {
-      console.log(err);
-      setStatus("error");
-    }
-  };
+const App = () => {
+  const {data, location, status, handleOnChange, fetchData} = useWeather()
 
   return (
     <div className="App">
-      <input value={location} onChange={handleLocation} />
-      <button disabled={location === ""} onClick={fetchData}>
-        search
-      </button>
-      {status === "loading" ? (
+      <SearchInput location={location} handleOnChange={handleOnChange} />
+      <Button location={location} handleOnClick={fetchData} />
+      {status === 'loading' ? (
         <h1> loading...</h1>
-      ) : status === "success" || status === "" ? (
+      ) : status === 'success' ? (
         <>
-          <Knots knots={wind} />
-          <p> {weather} </p>
+          <Knots knots={data?.wind?.speed} />
+          {data?.weather?.length && <div>{data?.weather[0]?.description}</div>}
+          country: {data?.sys?.country}
         </>
       ) : (
-        <h1> error </h1>
+        status === 'error' && <h1> Data not found </h1>
       )}
-      country: {country}
     </div>
-  );
+  )
 }
+
+export default App

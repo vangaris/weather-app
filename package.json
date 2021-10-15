@@ -25,6 +25,14 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "node ./scripts/pre-push"
+    }
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
